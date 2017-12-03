@@ -1,0 +1,51 @@
+<beans 
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc" 
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:task="http://www.springframework.org/schema/task"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation=
+       "http://www.springframework.org/schema/beans     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/aop       http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+        http://www.springframework.org/schema/context   http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/mvc       http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+        http://www.springframework.org/schema/tx        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+        http://www.springframework.org/schema/task      http://www.springframework.org/schema/task/spring-task-3.0.xsd"
+    default-autowire="byName" default-lazy-init="false">
+
+    <!-- 定义consumer的参数 -->
+    <bean id="consumerConfig" class="kafka.consumer.ConsumerConfig">
+        <constructor-arg>
+            <props>
+                <prop key="zookeeper.connect">debian1.org:2181,debian1.org:2181,debian1.org:2181</prop>
+                <prop key="group.id">kafka-consumer-group</prop>
+                <prop key="zookeeper.session.timeout.ms">3000</prop>
+                <prop key="zookeeper.sync.time.ms">2000</prop>
+                <prop key="auto.commit.interval.ms">1000</prop>
+                <prop key="rebalance.max.retries">10</prop>
+                <prop key="rebalance.backoff.ms">1200</prop>
+            </props>
+        </constructor-arg>
+    </bean>
+    <bean id="kafkaConsumerContainer" class="org.wjh.kafka.KafkaConsumerContainer" init-method="start">
+        <property name="consumerConfig" ref="consumerConfig"/>
+        <property name="topic" value="kafka-topic"/>
+    </bean>
+     <!-- 定义producer的参数 -->
+    <bean id="producerConfig" class="kafka.producer.ProducerConfig">
+        <constructor-arg>
+            <props>
+               <prop key="metadata.broker.list">debian1.org:9092,debian1.org:9092,debian1.org:9092</prop>
+                <prop key="serializer.class">kafka.serializer.StringEncoder</prop>
+                <prop key="key.serializer.class">kafka.serializer.StringEncoder</prop>
+                <prop key="request.required.acks">1</prop>
+            </props>
+        </constructor-arg>
+    </bean>
+     <bean id="kafkaProducer" class="org.wjh.kafka.KafkaProducer" init-method="init">
+        <property name="producerConfig" ref="producerConfig"/>
+        <property name="topic" value="kafka-topic"/>
+    </bean>
+</beans>
