@@ -19,7 +19,7 @@
     <bean id="consumerConfig" class="kafka.consumer.ConsumerConfig">
         <constructor-arg>
             <props>
-                <prop key="zookeeper.connect">debian1.org:2181,debian1.org:2181,debian1.org:2181</prop>
+                <prop key="zookeeper.connect">debian1.org:2181,debian2.org:2181,debian3.org:2181</prop>
                 <prop key="group.id">kafka-consumer-group</prop>
                 <prop key="zookeeper.session.timeout.ms">3000</prop>
                 <prop key="zookeeper.sync.time.ms">2000</prop>
@@ -37,7 +37,7 @@
     <bean id="producerConfig" class="kafka.producer.ProducerConfig">
         <constructor-arg>
             <props>
-               <prop key="metadata.broker.list">debian1.org:9092,debian1.org:9092,debian1.org:9092</prop>
+               <prop key="metadata.broker.list">debian1.org:9092,debian2.org:9092,debian2.org:9092</prop>
                 <prop key="serializer.class">kafka.serializer.StringEncoder</prop>
                 <prop key="key.serializer.class">kafka.serializer.StringEncoder</prop>
                 <prop key="request.required.acks">1</prop>
