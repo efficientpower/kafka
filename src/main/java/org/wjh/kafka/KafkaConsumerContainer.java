@@ -58,7 +58,7 @@ public class KafkaConsumerContainer {
                             msg = new String(it.next().message());
                             KafkaConsumer consumer = new KafkaConsumer(msg);
                             executor.submit(consumer);
-                            logger.info("receive msg " + msg);
+                            logger.info("接受消息完成 " + msg);
                         }
                     } catch (Exception e) {
                         logger.error("处理消息出现异常:" + msg, e);

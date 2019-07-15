@@ -16,7 +16,7 @@ public class KafkaConsumer implements Runnable {
 
     public void run() {
         // TODO Auto-generated method stub
-        logger.info("接收消息 " + msg);
+        logger.info("处理消息 " + msg);
     }
 
 }
